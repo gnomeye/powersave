@@ -2,7 +2,7 @@
 
 My configuration for maximizing the battery life on my Thinkpad T430s.
 
-Dependencies: [http://github.com/vodik/backlight utilities][backlight-utilities from vodik].
+Dependencies: [backlight-utilities](http://github.com/vodik/backlight-utils) from [vodik](http://github.com/vodik).
 
 A `PKGBUILD` is included as a convenience.
 
