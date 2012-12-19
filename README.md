@@ -1,68 +1,16 @@
 ## powersave
 
-My configuration for maximizing the battery life on my Thinkpad T530.
+My configuration for maximizing the battery life on my Thinkpad T430s.
 
-Included here is a systemd service file, various config-lets and a few
-utilities to set or control certain power saving features. I set as much
-as I can statically on boot; I think its silly to increase power
-consumption simply because I'm on AC power. This is integrated with my
-[backlight utilities][backlight].
+Dependencies: [http://github.com/vodik/backlight utilities][backlight-utilities from vodik].
 
 A `PKGBUILD` is included as a convenience.
 
-### modprobe.d/powersave.conf
+### /etc/udev/rules.d/50-powersave.conf
 
-Enable `power_save=1` for `snd_hda_intel`
+start powersave script on power_supply=0/1
 
-### sysctl.d/powersave.conf
+### /usr/bin/powersave
 
-- disable NMI watchdog
-- set laptop mode
-- increase the dirty writeback time
+powersave script with powersaving settings
 
-### rules.d/50-backlight-powersave.rules
-
-Rules for the backlight. Depending if we are on AC or battery power:
-
-- sets the backlight to either 5% or max
-- start or stop the [dimmer.service][backlight]
-
-  [backlight]: https://github.com/vodik/backlight-utils
-
-### rules.d/50-network-powersave.rules
-
-Set the powersaving features on network devices that must be enabled by
-3rd-party commands. For every detected device:
-
-```
-ACTION=="add", SUBSYSTEM=="net", KERNEL=="eth*" RUN+="/usr/sbin/ethtool -s %k wol d"
-ACTION=="add", SUBSYSTEM=="net", KERNEL=="wlan*" RUN+="/usr/sbin/iw dev %k set power_save on"
-```
-
-**NOTE**: this assumes modern Linux wireless drivers. There's no guarantee
-about naming of devices.
-
-### rules.d/50-pci-powersave.rules
-
-Enable pci powersaving features:
-
-```
-ACTION=="add", SUBSYSTEM=="pci", ATTR{power/control}="auto"
-```
-
-### rules.d/50-sata-powersave.rules
-
-Enable sata powersaving features:
-
-```
-ACTION=="add", SUBSYSTEM=="scsi_host", ATTR{link_power_management_policy}="min_power"
-```
-
-### rules.d/50-usb-powersave.rules
-
-Enable powersaving and autosuspend on usb ports:
-
-```
-ACTION=="add", SUBSYSTEM=="usb", TEST=="power/autosuspend" ATTR{power/autosuspend}="1"
-ACTION=="add", SUBSYSTEM=="usb", TEST=="power/control" ATTR{power/control}="auto"
-```

@@ -1,11 +1,11 @@
 # Maintainer: Simon Gomizelj <simongmzlj@gmail.com>
 
-pkgname=vodik-powersave-git
-pkgver=20121013
+pkgname=powersave
+pkgver=20121219
 pkgrel=1
-pkgdesc="Vodik's powersaving settings"
+pkgdesc="powersaving script"
 arch=('any')
-url="http://github.com/vodik/powersave"
+url="http://github.com/gnomeye/powersave"
 license=('GPL')
 depends=('systemd' 'backlight-utils-git')
 makedepends=('git')
@@ -33,13 +33,8 @@ build() {
 
 package() {
   cd "$srcdir/$_gitname-build"
-  install -Dm644 sysctl.d/powersave.conf "$pkgdir/usr/lib/sysctl.d/powersave.conf"
-  install -Dm644 modprobe.d/powersave.conf "$pkgdir/usr/lib/modprobe.d/powersave.conf"
-  install -Dm644 rules.d/50-backlight-powersave.rules "$pkgdir/usr/lib/udev/rules.d/50-backlight-powersave.rules"
-  install -Dm644 rules.d/50-network-powersave.rules "$pkgdir/usr/lib/udev/rules.d/50-network-powersave.rules"
-  install -Dm644 rules.d/50-sata-powersave.rules "$pkgdir/usr/lib/udev/rules.d/50-sata-powersave.rules"
-  install -Dm644 rules.d/50-pci-powersave.rules "$pkgdir/usr/lib/udev/rules.d/50-pci-powersave.rules"
-  install -Dm644 rules.d/50-usb-powersave.rules "$pkgdir/usr/lib/udev/rules.d/50-usb-powersave.rules"
+  install -Dm644 50-powersave.rules "$pkgdir/etc/udev/rules.d/50-powersave.rules"
+  install -Dm755 powersave "$pkgdir/usr/bin/powersave"
 }
 
 # vim: ft=sh syn=sh et

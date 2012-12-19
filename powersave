@@ -1,0 +1,54 @@
+#!/bin/sh
+case "$1" in 
+	true)	#enable power settings on battery
+		#backlight
+		/usr/bin/bset 9
+		systemctl start dimmer.service
+		#runtime-PM
+		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo auto > $runcntrl; done
+		#disable nmi_watchdog
+		echo 0 > /proc/sys/kernel/nmi_watchdog
+		#kernel write mode
+		echo 5 > /proc/sys/vm/laptop_mode
+		echo 1500 > /proc/sys/vm/dirty_writeback_centisecs
+		#disk powersave
+		for disk in /sys/class/scsi_host/host*/link_power_management_policy; do echo min_power > $disk;done 	
+		#sound card powersave
+		echo 1 > /sys/module/snd_hda_intel/parameters/power_save
+		echo Y > /sys/module/snd_hda_intel/parameters/power_save_controller
+		#wol disable
+		ethtool -s eth0 wol d
+		#wlan0 powersave
+		iwconfig wlan0 power on &> /dev/null
+		#usb autosuspend
+		for usb in /sys/bus/usb/devices/*/power/level; do echo auto > $usb; done
+		#cpu frequency
+		cpupower frequency-set -g powersave
+		;;
+	false)	#disable power settings on battery
+		#backlight
+		/usr/bin/bset max
+		systemctl stop dimmer.service
+		#runtime-PM
+		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo on > $runcntrl; done
+		#disable nmi_watchdog
+		echo 1 > /proc/sys/kernel/nmi_watchdog
+		#kernel write mode
+		echo 0 > /proc/sys/vm/laptop_mode
+		echo 6000 > /proc/sys/vm/dirty_writeback_centisecs
+		#disk powersave
+		for disk in /sys/class/scsi_host/host*/link_power_management_policy; do echo max_performance > $disk;done 	
+		#sound card powersave
+		echo 0 > /sys/module/snd_hda_intel/parameters/power_save
+		echo N > /sys/module/snd_hda_intel/parameters/power_save_controller
+		#wol disable
+		ethtool -s eth0 wol g
+		#wlan0 powersave
+		iwconfig wlan0 power off &> /dev/null
+		#usb autosuspend
+		for usb in /sys/bus/usb/devices/*/power/level; do echo on > $usb; done
+		#cpu frequency
+		cpupower frequency-set -g ondemand
+		;;
+esac
+exit 0
