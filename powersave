@@ -2,7 +2,7 @@
 case "$1" in 
 	true)	#enable power settings on battery
 		#backlight
-		/usr/bin/bset 9
+		/usr/bin/bset 10
 		systemctl start dimmer.service
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo auto > $runcntrl; done
