@@ -1,8 +1,8 @@
 #!/bin/sh
 case "$1" in 
 	true)	#enable power settings on battery
-		#backlight
-		/usr/bin/bset 10
+		#backlight / replaced through dimdaemon from aur
+		#/usr/bin/bset 10
 		systemctl start dimmer.service
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo auto > $runcntrl; done
@@ -26,8 +26,8 @@ case "$1" in
 		cpupower frequency-set -g powersave
 		;;
 	false)	#disable power settings on battery
-		#backlight
-		/usr/bin/bset max
+		#backlight /replaced through dimdaemon from aur
+		# /usr/bin/bset max
 		systemctl stop dimmer.service
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo on > $runcntrl; done
