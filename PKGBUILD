@@ -7,7 +7,7 @@ pkgdesc="powersaving script"
 arch=('any')
 url="http://github.com/gnomeye/powersave"
 license=('GPL')
-depends=('systemd' 'backlight-utils-git')
+depends=('systemd')
 makedepends=('git')
 
 _gitroot="$PWD"
