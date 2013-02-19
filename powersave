@@ -1,9 +1,11 @@
 #!/bin/sh
 case "$1" in 
 	true)	#enable power settings on battery
-		#backlight / replaced through dimdaemon from aur
-		#/usr/bin/bset 10
+		#bset from backlight-utils from vodik
+		/usr/bin/bset 10
 		systemctl start dimmer.service
+        #dpms setting
+        xset dpms 30 40 50
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo auto > $runcntrl; done
 		#disable nmi_watchdog
@@ -26,9 +28,11 @@ case "$1" in
 		cpupower frequency-set -g powersave
 		;;
 	false)	#disable power settings on battery
-		#backlight /replaced through dimdaemon from aur
-		# /usr/bin/bset max
+		#bset from backlight-utils from vodik
+        /usr/bin/bset max
 		systemctl stop dimmer.service
+        #dpms setting
+        xset dpms 120 140 160
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo on > $runcntrl; done
 		#disable nmi_watchdog

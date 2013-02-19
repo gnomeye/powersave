@@ -1,13 +1,13 @@
 # Maintainer: Simon Gomizelj <simongmzlj@gmail.com>
 
 pkgname=powersave
-pkgver=20121219
+pkgver=20130219
 pkgrel=1
 pkgdesc="powersaving script"
 arch=('any')
 url="http://github.com/gnomeye/powersave"
 license=('GPL')
-depends=('systemd')
+depends=('systemd' 'backlight-utils-git')
 makedepends=('git')
 
 _gitroot="$PWD"
