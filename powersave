@@ -1,9 +1,8 @@
 #!/bin/sh
 case "$1" in 
 	true)	#enable power settings on battery
-		#bset from backlight-utils from vodik
-		/usr/bin/bset 10
-		#systemctl start dimmer.service
+		#xbacklight setting
+		/usr/bin/xbacklight -set 20
         #dpms setting
         xset dpms 30 40 50
 		#runtime-PM
@@ -28,8 +27,8 @@ case "$1" in
 		cpupower frequency-set -g powersave
 		;;
 	false)	#disable power settings on battery
-		#bset from backlight-utils from vodik
-        /usr/bin/bset max
+		#xbacklight setting
+		/usr/bin/xbacklight -set 100
 		#systemctl stop dimmer.service
         #dpms setting
         xset dpms 120 140 160
