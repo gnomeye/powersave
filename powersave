@@ -3,7 +3,7 @@ case "$1" in
 	true)	#enable power settings on battery
 		#bset from backlight-utils from vodik
 		/usr/bin/bset 10
-		systemctl start dimmer.service
+		#systemctl start dimmer.service
         #dpms setting
         xset dpms 30 40 50
 		#runtime-PM
@@ -30,7 +30,7 @@ case "$1" in
 	false)	#disable power settings on battery
 		#bset from backlight-utils from vodik
         /usr/bin/bset max
-		systemctl stop dimmer.service
+		#systemctl stop dimmer.service
         #dpms setting
         xset dpms 120 140 160
 		#runtime-PM
