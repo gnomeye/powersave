@@ -1,8 +1,8 @@
 #!/bin/sh
 case "$1" in 
 	true)	#enable power settings on battery
-		#xbacklight setting
-		/usr/bin/xbacklight -set 20
+		#backlight settings
+		echo 20 > /sys/class/backlight/acpi_video0/brightness
         #dpms setting
         xset dpms 30 40 50
 		#runtime-PM
@@ -27,9 +27,8 @@ case "$1" in
 		cpupower frequency-set -g powersave
 		;;
 	false)	#disable power settings on battery
-		#xbacklight setting
-		/usr/bin/xbacklight -set 100
-		#systemctl stop dimmer.service
+		#backlight setting
+		echo 100 > /sys/class/backlight/acpi_video0/brightness
         #dpms setting
         xset dpms 120 140 160
 		#runtime-PM
