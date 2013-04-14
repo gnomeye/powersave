@@ -3,8 +3,8 @@ case "$1" in
 	true)	#enable power settings on battery
 		#backlight settings
 		echo 20 > /sys/class/backlight/acpi_video0/brightness
-        #dpms setting
-        xset dpms 30 40 50
+        	#dpms setting // to work within root 
+        	su eye -c "DISPLAY=:0.0 xset dpms 0 0 20"
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo auto > $runcntrl; done
 		#disable nmi_watchdog
@@ -29,8 +29,8 @@ case "$1" in
 	false)	#disable power settings on battery
 		#backlight setting
 		echo 100 > /sys/class/backlight/acpi_video0/brightness
-        #dpms setting
-        xset dpms 120 140 160
+       		#dpms setting
+        	su eye -c "DISPLAY=:0.0 xset dpms 0 0 120"
 		#runtime-PM
 		for runcntrl in /sys/bus/{pci,i2c}/devices/*/power/control; do echo on > $runcntrl; done
 		#disable nmi_watchdog
