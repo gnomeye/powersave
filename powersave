@@ -2,7 +2,7 @@
 case "$1" in 
 	true)	#enable power settings on battery
 		#backlight settings
-		echo 20 > /sys/class/backlight/acpi_video0/brightness
+		echo 4 > /sys/class/backlight/acpi_video0/brightness
         	#dpms setting // to work within root 
         	su eye -c "DISPLAY=:0.0 xset dpms 0 0 20"
 		#runtime-PM
@@ -28,7 +28,7 @@ case "$1" in
 		;;
 	false)	#disable power settings on battery
 		#backlight setting
-		echo 100 > /sys/class/backlight/acpi_video0/brightness
+		echo 15 > /sys/class/backlight/acpi_video0/brightness
        		#dpms setting
         	su eye -c "DISPLAY=:0.0 xset dpms 0 0 120"
 		#runtime-PM
